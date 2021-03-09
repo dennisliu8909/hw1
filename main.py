@@ -25,16 +25,16 @@ output_list = []  # output list
 correct_data = list(filter(lambda item: item['WDSD'] != ('-99.000' or '-999.000'), data)) # delet unexpected data
 for station in id_list:    # find WDSD range of specific stations
    target_data = list(filter(lambda item: item['station_id'] == station, correct_data))
-   maximum = target_data[0]['WDSD']
-   minimum = target_data[0]['WDSD']
-   for row in target_data:    # find maximum WDSD and minimum WDSD of specific station
-      if row['WDSD'] > maximum:
-         maximum = row['WDSD']
-      elif row['WDSD'] < minimum:
-         minimum = row['WDSD']
-   if len(target_data) == 1:  # if there is only one data then there is no range for WDSD
+   if len(target_data) <= 1:  # if there is only one data then there is no range for WDSD
       wd_range = 'None'
    else:
+      maximum = target_data[0]['WDSD']
+      minimum = target_data[0]['WDSD']
+      for row in target_data:    # find maximum WDSD and minimum WDSD of specific station
+         if row['WDSD'] > maximum:
+            maximum = row['WDSD']
+         elif row['WDSD'] < minimum:
+            minimum = row['WDSD']
       wd_range = float(maximum) - float(minimum)
    ans_list = [station, wd_range]   # the WDSD range of each station
    output_list.append(ans_list)  # put each ans_list to the final output list
